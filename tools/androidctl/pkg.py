@@ -1,6 +1,7 @@
 import sdk
 import os
 import props
+import errors
 
 
 sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
@@ -9,8 +10,8 @@ sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
 def installed_pkgs(name):
   try:
     return os.listdir('%s/%s' % (sdk_path, name))
-  except OSError:
-    return []
+  except OSError as err:
+    raise errors.UnknownError(err.code, err.message)
 
 
 def install(name, version):

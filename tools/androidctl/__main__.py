@@ -6,6 +6,7 @@ import zipfile
 import shutil
 import ConfigParser
 import distutils.util
+import errno
 
 import requests
 
@@ -15,6 +16,7 @@ props.refresh()
 import sdk
 import keytool
 import pkg
+import errors
 
 
 sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
@@ -38,7 +40,12 @@ def pkg_cmd(action, name, version):
 
 def sync_cmd(path, purge=False, purge_key=True):
   config = ConfigParser.ConfigParser(allow_no_value=True)
-  config.read(path)
+  try:
+    res = config.read(path)
+  except ConfigParser.Error as err:
+    raise errors.RuntimeError(errno.EILSEQ, str(err))
+  if len(res) == 0:
+    raise errors.RuntimeError(errno.EIO, 'Could not load/read config file at %s.' % path)
   sections = config.sections()
   if 'keystore' in sections:
     ks_path = keytool.keytool_path()
@@ -89,4 +96,9 @@ def parse_cli(*args, **kwargs):
 if __name__ == '__main__':
   args = parse_cli()
   params = [getattr(args, param) for param in args.params if hasattr(args, param)]
-  args.fn(*params)
+  try:
+    args.fn(*params)
+    sys.exit(0)
+  except errors.BaseError as err:
+    sys.stderr.write('%s\n' % err.message)
+    sys.exit(err.code)
