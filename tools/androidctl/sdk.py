@@ -16,6 +16,8 @@ sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
 sdk_url = props.sdk.url
 sdk_shell = props.sdk.shell
 https_proxy = os.environ.get('HTTPS_PROXY')
+if not https_proxy:
+  https_proxy = os.environ.get('HTTP_PROXY')
 
 
 def manager(*args):
