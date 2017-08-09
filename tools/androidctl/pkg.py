@@ -9,7 +9,8 @@ sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
 
 def installed_pkgs(name):
   try:
-    return os.listdir('%s/%s' % (sdk_path, name))
+    folder_items = os.listdir('%s/%s' % (sdk_path, name))
+    return [item for item in folder_items if os.path.isdir(item)]
   except OSError as err:
     return []
 
