@@ -11,7 +11,7 @@ def installed_pkgs(name):
   try:
     return os.listdir('%s/%s' % (sdk_path, name))
   except OSError as err:
-    raise errors.UnknownError(err.code, err.message)
+    return []
 
 
 def install(name, version):
