@@ -3,6 +3,7 @@ import subprocess
 import sys
 
 import props
+import errors
 
 
 sdk_path = os.environ.get('ANDROID_HOME', props.sdk.path)
@@ -28,4 +29,6 @@ def gen(alias, name, unit, org, loc, state, country, storepass, keypass):
     '-keysize', '2048',
     '-keyalg', 'RSA'
   ]
-  return subprocess.call(cmd, stdout=sys.stdout, stderr=sys.stderr)
+  code = subprocess.call(cmd, stdout=sys.stdout, stderr=sys.stderr)
+  if code != 0:
+    raise errors.RuntimeError(code,  'keytool exited abruptly.')
