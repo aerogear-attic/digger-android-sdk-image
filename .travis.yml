@@ -1,0 +1,10 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t aerogear/android-sdk:dev .
+
+script:
+  - docker run -it aerogear/android-sdk:dev /opt/tools/smoke-test.sh
