@@ -1,7 +1,18 @@
 #!/bin/bash
 
-which androidctl
-which androidctl-sync
+if [[ -f "$(which androidctl)" ]]; then
+  echo "androidctl script validated.";
+else
+  echo "cannot find androidctl script";
+  exit 1;
+fi
+
+if [[ -f "$(which androidctl-sync)" ]]; then
+  echo "androidctl-sync script validated.";
+else
+  echo "cannot find androidctl-sync script";
+  exit 1;
+fi
 
 androidctl sdk install
 
