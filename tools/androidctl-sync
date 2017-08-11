@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DIR=$(dirname "$(readlink -f "$0")")
-
 getopts ":y" _ANSWER
 
 if [ "$_ANSWER" != "?" ]; then
@@ -13,7 +11,7 @@ if [ -z "$ANSWER" ]; then
   ANSWER='n'
 fi
 
-CMD="python $DIR/androidctl $@"
+CMD="androidctl sync $@"
 
 expect -c "
 set timeout -1;

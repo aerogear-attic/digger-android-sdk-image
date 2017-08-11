@@ -14,6 +14,8 @@ COPY tools /opt/tools
 
 #system packages
 RUN yum install -y \
+  openssl \
+  openssl-devel \
   zlib.i686 \
   ncurses-libs.i686 \
   bzip2-libs.i686 \
@@ -25,13 +27,11 @@ RUN yum install -y \
   expect
 
 #install dependencies and links androidctl cli to /usr/bin
-RUN curl 'https://bootstrap.pypa.io/get-pip.py' -o 'get-pip.py' && \
-    python get-pip.py && \
-    rm get-pip.py && \
-    pip install -U -r /opt/tools/requirements.txt && \
+RUN curl https://bootstrap.pypa.io/get-pip.py | python && \
+    pip install -U https://github.com/aerogear/androidctl/archive/0.1.0.zip && \
     mkdir -p ${ANDROID_HOME} && \
     chmod 775 -R /opt && \
-    ln -s /opt/tools/androidctl-bin /usr/bin/androidctl && \
+    ln -s /opt/tools/androidctl-sync /usr/bin/androidctl-sync && \
     mkdir $HOME/.android && \
     chmod 775 $HOME/.android && \
     ln -s $ANDROID_HOME/android.debug  $HOME/.android/android.debug
