@@ -24,7 +24,8 @@ RUN yum install -y \
   ant \
   which\
   wget \
-  expect
+  expect \
+  rsync
 
 #install dependencies and links androidctl cli to /usr/bin
 RUN curl https://bootstrap.pypa.io/get-pip.py | python && \
