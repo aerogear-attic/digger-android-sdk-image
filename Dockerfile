@@ -34,7 +34,6 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python && \
     chmod 775 -R /opt && \
     ln -s /opt/tools/androidctl-sync /usr/bin/androidctl-sync && \
     mkdir $HOME/.android && \
-    chmod 775 $HOME/.android && \
-    ln -s $ANDROID_HOME/android.debug  $HOME/.android/android.debug
+    chmod 775 $HOME/.android
 
 CMD ["sleep", "infinity"]
